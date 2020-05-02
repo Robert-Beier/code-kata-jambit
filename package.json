@@ -1,0 +1,8 @@
+{
+  "name": "code-kata-jambit",
+  "version": "1.0.0",
+  "description": "Solutions to and working environment for the code katas at jambit Leipzig.",
+  "repository": "https://github.com/Robert-Beier/code-kata-jambit",
+  "author": "Robert Beier <r.beier199@gmail.com>",
+  "license": "MIT"
+}
