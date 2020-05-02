@@ -7,10 +7,15 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node-dev --respawn src/$npm_package_config_challenge/main.ts",
-    "start:no-watch": "ts-node-dev src/$npm_package_config_challenge/main.ts"
+    "start:no-watch": "ts-node-dev src/$npm_package_config_challenge/main.ts",
+    "test": "jest src/$npm_package_config_challenge/",
+    "test:watch": "jest --watch src/$npm_package_config_challenge/"
   },
   "devDependencies": {
+    "@types/jest": "^25.2.1",
     "@types/node": "^13.13.4",
+    "jest": "^25.5.4",
+    "ts-jest": "^25.4.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.8.3"
   },
