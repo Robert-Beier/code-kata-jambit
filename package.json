@@ -5,8 +5,16 @@
   "repository": "https://github.com/Robert-Beier/code-kata-jambit",
   "author": "Robert Beier <r.beier199@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "ts-node-dev --respawn src/$npm_package_config_challenge/main.ts",
+    "start:no-watch": "ts-node-dev src/$npm_package_config_challenge/main.ts"
+  },
   "devDependencies": {
     "@types/node": "^13.13.4",
+    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.8.3"
+  },
+  "config": {
+    "challenge": "example_kata"
   }
 }
