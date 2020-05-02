@@ -19,6 +19,10 @@ To run and watch the code of a challenge, use `yarn start`.
 
 To run and watch the code of a challenge, use `yarn test`. To watch for file changes, use `yarn test:watch`.
 
-## Run in debug mode
+## Run code in debug mode
 
 In VSCode just go into the `main.ts` file of a challenge, set a breakpoint and hit play for the launch configuration `Launch Program`.
+
+## Run tests in debug mode
+
+In VSCode just go into the `main.spec.ts` file of a challenge, set a breakpoint and hit play for the launch configuration `Launch Program`.
