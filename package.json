@@ -4,5 +4,9 @@
   "description": "Solutions to and working environment for the code katas at jambit Leipzig.",
   "repository": "https://github.com/Robert-Beier/code-kata-jambit",
   "author": "Robert Beier <r.beier199@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^13.13.4",
+    "typescript": "^3.8.3"
+  }
 }
