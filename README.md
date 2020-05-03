@@ -21,8 +21,20 @@ To run and watch the code of a challenge, use `yarn test`. To watch for file cha
 
 ## Run code in debug mode
 
+### VScode
+
 In VSCode just go into the `main.ts` file of a challenge, set a breakpoint and hit play for the launch configuration `Run current file`.
+
+### IntelliJ IDEA
+
+In IntelliJ IDEA just go into the `main.ts` file of a challenge, set a breakpoint and hit debug for the run configuration `Run current file`.
 
 ## Run tests in debug mode
 
+### VScode
+
 In VSCode just go into the `main.spec.ts` file of a challenge, set a breakpoint and hit play for the launch configuration `Run current test file`.
+
+### IntelliJ IDEA
+
+In IntelliJ IDEA just right click on the test file to run it.
