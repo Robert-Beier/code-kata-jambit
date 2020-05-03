@@ -21,8 +21,8 @@ To run and watch the code of a challenge, use `yarn test`. To watch for file cha
 
 ## Run code in debug mode
 
-In VSCode just go into the `main.ts` file of a challenge, set a breakpoint and hit play for the launch configuration `Launch Program`.
+In VSCode just go into the `main.ts` file of a challenge, set a breakpoint and hit play for the launch configuration `Run current file`.
 
 ## Run tests in debug mode
 
-In VSCode just go into the `main.spec.ts` file of a challenge, set a breakpoint and hit play for the launch configuration `Launch Program`.
+In VSCode just go into the `main.spec.ts` file of a challenge, set a breakpoint and hit play for the launch configuration `Run current test file`.
