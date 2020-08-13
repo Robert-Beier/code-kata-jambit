@@ -21,6 +21,6 @@
     "typescript": "^3.8.3"
   },
   "config": {
-    "challenge": "2020-04-30_i-before-e"
+    "challenge": "2020-07-30_marble-maze"
   }
 }
