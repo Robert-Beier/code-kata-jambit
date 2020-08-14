@@ -61,18 +61,12 @@ const getEntryColumns = (mazeRow: boolean[]): number[] => {
       []);
 }
 
-const getEnvironment = (maze: boolean[][], currentColumn: number): Environment => {
+const getEnvironment = (maze: boolean[][], currentColumn: number, currentRow: number): Environment => {
   return {
-    left: currentColumn > 1 ? maze[0][currentColumn - 1] : true,
-    right: currentColumn < maze[0].length - 1 ? maze[0][currentColumn + 1] : true,
-    down: maze[1][currentColumn]
+    left: currentColumn > 1 ? maze[currentRow][currentColumn - 1] : true,
+    right: currentColumn < maze[currentRow].length - 1 ? maze[currentRow][currentColumn + 1] : true,
+    down: maze[currentRow + 1][currentColumn]
   };
-}
-
-const getRemainingMaze = (maze: boolean[][], direction: Direction): boolean[][] => {
-  return direction === Direction.DOWN ?
-      maze.slice(1, maze.length) :
-      maze;
 }
 
 const getUpdatedColumn = (currentColumn: number, direction: Direction): number => {
@@ -86,17 +80,25 @@ const getUpdatedColumn = (currentColumn: number, direction: Direction): number =
   }
 }
 
-const getExitColumns = (maze: boolean[][], currentColumn: number, direction: Direction): number[] => {
-  if (maze.length < 2) {
+const getUpdatedRow = (currentRow: number, direction: Direction): number => {
+  if (direction === Direction.DOWN) {
+    return currentRow + 1;
+  }
+  return currentRow;
+}
+
+const getExitColumns = (maze: boolean[][], currentColumn: number, currentRow: number, direction: Direction): number[] => {
+  if (currentRow === maze.length - 1) {
     return [currentColumn];
   }
 
-  const environment = getEnvironment(maze, currentColumn);
+  const environment = getEnvironment(maze, currentColumn, currentRow);
   const potentialDirections = getPotentialDirections(environment, direction);
   return potentialDirections.flatMap(potentialDirection =>
       getExitColumns(
-          getRemainingMaze(maze, potentialDirection),
+          maze,
           getUpdatedColumn(currentColumn, potentialDirection),
+          getUpdatedRow(currentRow, potentialDirection),
           potentialDirection
       )
   );
@@ -108,7 +110,7 @@ export interface Connection {
 }
 
 const getConnectionsForEntryColumn = (maze: boolean[][], entryColumn: number): Connection[] => {
-  const exitColumns = getExitColumns(maze, entryColumn, Direction.DOWN);
+  const exitColumns = getExitColumns(maze, entryColumn, 0, Direction.DOWN);
   if (exitColumns.length === 0) {
     return [{
       entryColumn,
