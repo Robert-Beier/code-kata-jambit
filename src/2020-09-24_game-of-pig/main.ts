@@ -22,8 +22,13 @@ function getCPURandomChoice() {
     return Math.random() < CPU_THROW_PROBABILITY ? Choice.THROW : Choice.PASS;
 }
 
-function getWinner(playerOne: Player, playerTwo: Player): Player | null {
-    const winners = [playerOne, playerTwo]
+function getNextPlayer(players: Player[], activePlayer: Player) {
+    const activePlayerIndex = players.indexOf(activePlayer);
+    return players[(activePlayerIndex + 1) % players.length];
+}
+
+function getWinner(players: Player[]): Player | null {
+    const winners = players
         .filter(player => player.score >= WINNING_SCORE)
         .sort((playerA, playerB) => playerB.score - playerA.score);
     return winners.length > 0 ? winners[0] : null;
@@ -42,17 +47,16 @@ function playTurn(player: Player, score = 0): number {
 }
 
 function playGame() {
-    const playerOne: Player = {
+    const players: Player[] = [{
         type: 'CPU',
         score: 0,
         name: 'Player One'
-    }
-    const playerTwo: Player = {
+    }, {
         type: 'CPU',
         score: 0,
         name: 'Player Two'
-    }
-    let activePlayer = playerOne;
+    }];
+    let activePlayer = players[0];
     let winner: Player | null = null;
 
     while (!winner) {
@@ -61,8 +65,8 @@ function playGame() {
         console.log(`${activePlayer.name} scored ${score} points in this round.`);
         activePlayer.score += score;
         console.log(`${activePlayer.name} now has a score of ${activePlayer.score} points.`);
-        activePlayer = activePlayer === playerOne ? playerTwo : playerOne;
-        winner = getWinner(playerOne, playerTwo);
+        activePlayer = getNextPlayer(players, activePlayer);
+        winner = getWinner(players);
     }
     console.log(`And the winner is: ${winner.name}`);
 }
