@@ -35,15 +35,18 @@ function getWinner(players: Player[]): Player | null {
 }
 
 function playTurn(player: Player, score = 0): number {
+    const dieSide = getRandomDieSide();
+    console.log(`${player.name} threw a ${dieSide}`);
+    if (dieSide === 1) {
+        return 0;
+    }
     const choice = getCPURandomChoice();
     if (choice === Choice.PASS) {
         console.log(`${player.name} decided to pass`);
         return score;
     }
     console.log(`${player.name} decided to throw`);
-    const dieSide = getRandomDieSide();
-    console.log(`${player.name} threw a ${dieSide}`);
-    return dieSide === 1 ? 0 : playTurn(player, score + dieSide);
+    return playTurn(player, score + dieSide);
 }
 
 function playGame() {
