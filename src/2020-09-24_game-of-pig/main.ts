@@ -1,7 +1,9 @@
+import * as inquirer from 'inquirer';
+
 type DieSide = 1 | 2 | 3 | 4 | 5 | 6;
 
 interface Player {
-    type: 'CPU',
+    type: 'CPU' | 'HUMAN',
     score: number,
     name: string
 }
@@ -18,8 +20,25 @@ function getRandomDieSide() {
     return Math.ceil(Math.random() * 6) as DieSide;
 }
 
+function getHumanChoice() {
+    return inquirer.prompt<{throwChoice: boolean}>([{
+        type: 'confirm',
+        name: 'throwChoice',
+        message: 'Do you want to throw again?',
+        default: true
+    }]).then(answers => answers.throwChoice ? Choice.THROW : Choice.PASS);
+}
+
 function getCPURandomChoice() {
     return Math.random() < CPU_THROW_PROBABILITY ? Choice.THROW : Choice.PASS;
+}
+
+async function getPlayerChoice(player: Player) {
+    if (player.type === 'CPU') {
+        return getCPURandomChoice();
+    } else {
+        return getHumanChoice();
+    }
 }
 
 function getNextPlayer(players: Player[], activePlayer: Player) {
@@ -34,13 +53,13 @@ function getWinner(players: Player[]): Player | null {
     return winners.length > 0 ? winners[0] : null;
 }
 
-function playTurn(player: Player, score = 0): number {
+async function playTurn(player: Player, score = 0): Promise<number> {
     const dieSide = getRandomDieSide();
     console.log(`${player.name} threw a ${dieSide}`);
     if (dieSide === 1) {
         return 0;
     }
-    const choice = getCPURandomChoice();
+    const choice = await getPlayerChoice(player);
     if (choice === Choice.PASS) {
         console.log(`${player.name} decided to pass`);
         return score;
@@ -49,9 +68,9 @@ function playTurn(player: Player, score = 0): number {
     return playTurn(player, score + dieSide);
 }
 
-function playGame() {
+async function playGame() {
     const players: Player[] = [{
-        type: 'CPU',
+        type: 'HUMAN',
         score: 0,
         name: 'Player One'
     }, {
@@ -64,7 +83,7 @@ function playGame() {
 
     while (!winner) {
         console.log(`Start of round for: ${activePlayer.name}`);
-        const score = playTurn(activePlayer);
+        const score = await playTurn(activePlayer);
         console.log(`${activePlayer.name} scored ${score} points in this round.`);
         activePlayer.score += score;
         console.log(`${activePlayer.name} now has a score of ${activePlayer.score} points.`);
