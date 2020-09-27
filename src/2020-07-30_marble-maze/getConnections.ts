@@ -58,7 +58,7 @@ const getEntryColumns = (mazeRow: boolean[]): number[] => {
           !isBlocked ?
               [...entryColumns, index] :
               entryColumns,
-      []);
+      [] as number[]);
 }
 
 const getEnvironment = (maze: boolean[][], currentColumn: number, currentRow: number): Environment => {
