@@ -11,23 +11,35 @@ export function getWaterLevelBetweenBorderTowers(towerA: number, towerB: number)
   return Math.min(towerA, towerB);
 }
 
-export function getWaterAreas(towers: number[]): number[][] {
+function towersHaveSpace(leftTower: number, rightTower: number) {
+  return rightTower - leftTower > 1;
+}
+
+function isTowerHigher(towers: number[], leftTower: number, rightTower: number) {
+  return towers[rightTower] > towers[leftTower];
+}
+function getArea(towers: number[], leftTower: number, rightTower: number) {
+  return towers.slice(leftTower, rightTower + 1)
+}
+
+export function getWaterAreas(towersHeights: number[]): number[][] {
   const areas = [];
-  let lastHighestTower = 0;
-  let lastSecondHighestTower : number | null = null;
-  for (let i = 1; i < towers.length; i++) {
-    if (lastHighestTower !== null && towers[i] >= towers[lastHighestTower]) {
-      if (i - lastHighestTower > 1) {
-        areas.push(towers.slice(lastHighestTower, i + 1));
+  let leftTower = 0;
+  let rightTower : number | null = null;
+
+  for (let currentTower = 1; currentTower < towersHeights.length; currentTower++) {
+    if (isTowerHigher(towersHeights, leftTower, currentTower)) {
+      if (towersHaveSpace(leftTower, currentTower)) {
+        areas.push(getArea(towersHeights, leftTower, currentTower));
       }
-      lastHighestTower = i;
-      lastSecondHighestTower = null;
-    } else if ((lastSecondHighestTower === null || towers[i] > towers[lastSecondHighestTower]) ) {
-      lastSecondHighestTower = i;
+      leftTower = currentTower;
+      rightTower = null;
+    } else if ((rightTower === null || isTowerHigher(towersHeights, rightTower, currentTower)) ) {
+      rightTower = currentTower;
     }
   }
-  if (lastSecondHighestTower && lastSecondHighestTower - lastHighestTower > 1) {
-    areas.push(towers.slice(lastHighestTower, lastSecondHighestTower + 1))
+  if (rightTower && towersHaveSpace(leftTower, rightTower)) {
+    areas.push(getArea(towersHeights, leftTower, rightTower))
   }
   return areas;
 }
